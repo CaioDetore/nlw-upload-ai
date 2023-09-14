@@ -1,0 +1,38 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZuBgW
+
+------WebKitFormBoundary7MA4YWxkTrZuBgW
+Content-Disposition: form-data; name="file"; filename="example.mp3"
+Content-Type: audio/mpeg
+
+< ./example.mp3
+------WebKitFormBoundary7MA4YWxkTrZuBgW--
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/videos/2c68c1a1-91f6-419b-9654-b249aadfdb68/transcription
+Content-Type: application/json
+
+{
+  "prompt": "head over heals, something"
+}
+
+###
+
+# @name create-transcription
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "2c68c1a1-91f6-419b-9654-b249aadfdb68",
+  "template": "Gere um resumo sucinto da transcrição do vídeo informada a seguir: '''{transcription}'''",
+  "temperature": 0.5
+}
+
